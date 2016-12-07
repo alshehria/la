@@ -18,8 +18,19 @@
     <link type="text/css" rel="stylesheet" href="css/animations.css"/>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700,900' rel='stylesheet'
           type='text/css'>
+    <script>
+        function logOut() {
+           // alert('hhh');
+            localStorage.clear();
+            window.location="index.html";
+        }
+
+        function viewBlog () {
+            alert('dsdf');
+        }
+    </script>
 </head>
-<body id="mobile_wrap" ng-app="laApp">
+<body id="mobile_wrap" ng-app="laApp" ng-controller="mainCtrl">
 
 <div class="statusbar-overlay"></div>
 
@@ -37,11 +48,11 @@
     <div class="clear"></div>
     <h3>POPULAR POSTS</h3>-->
     <ul class="popular_posts">
-        <li>
-            <a href="blog-single.html" class="close-panel"><img src="images/photos/photo1.jpg" alt="" title=""/></a>
-            <span><a href="blog-single.html" class="close-panel">Design is not just what it looks like and feels
-                like.</a></span></li>
-        <li>
+        <li ng-repeat="cat in categoryList">
+
+            <a href="" class="close-panel"><img src="images/photos/photo1.jpg" alt="" title=""/></a>
+            <span><a href="blog-single.html" class="close-panel">{{cat.name}}</a></span></li>
+       <!-- <li>
             <a href="blog-single.html" class="close-panel"><img src="images/photos/photo2.jpg" alt="" title=""/></a>
             <span><a href="blog-single.html" class="close-panel">Fashion fades, only style remains the same.</a></span>
         </li>
@@ -56,7 +67,7 @@
         <li>
             <a href="blog-single.html" class="close-panel"><img src="images/photos/photo5.jpg" alt="" title=""/></a>
             <span><a href="blog-single.html" class="close-panel">Totam rem aperiam, eaque ipsa quae ab illo inventore
-                veritatis.</a></span></li>
+                veritatis.</a></span></li>-->
     </ul>
 </div>
 
@@ -73,7 +84,7 @@
             </div>
 
         </div>-->
-        <div class="pages">
+        <div class="pages" >
             <div data-page="projects" class="page no-navbar">
                 <div class="page-content">
                     <div class="navbarpages">
@@ -88,18 +99,19 @@
                         <div class="page_content">
                             <div class="blog-posts">
                                 <ul class="posts">
-                                    <li>
-                                        <div class="post_entry">
+                                    <li ng-repeat="y in postList">
+                                        <div class="post_entry" >
                                             <div class="post_date">
-                                                <span class="day">23</span>
-                                                <span class="month">march</span>
+                                                <span class="day">{{y.day}}</span>
+                                                <span class="month">{{y.month}}</span>
                                             </div>
                                             <div class="post_title">
-                                                <h2><a href="blog-single.html">Design is not just what it looks like and feels like.</a></h2>
+                                                <!--<h2><a href="blog-single.html?postid={{y.id}}">{{y.title}}</a></h2>-->
+                                                 <h2 ng-click="viewBlog(y.id)">{{y.title}}</h2>
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
+                                    <!--<li>
                                         <div class="post_entry">
                                             <div class="post_date">
                                                 <span class="day">17</span>
@@ -153,7 +165,7 @@
                                                 <h2><a href="blog-single.html">Sed ut perspiciatis unde omnis iste accusantium.</a></h2>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li>-->
                                 </ul>
 
                                <!-- <div class="clear"></div>
@@ -187,15 +199,19 @@
 </div>
 
 <!-- Login Popup -->
-<div class="popup popup-login">
+<div class="popup popup-login" >
     <div class="content-block-login">
         <h4>CREATE POST</h4>
         <div class="loginform">
             <form id="LoginForm" method="post">
-                <input type="text" name="title" value="" class="form_input required" placeholder="Title"/>
-                <textarea name="description" placeholder="Description" class="form_input required"></textarea>
-                <input type="file" name="image" class="form_input required">
-                <input type="submit" name="submit" class="form_submit" id="submit" value="CREATE"/>
+                <input type="text" name="title"  ng-model="postData.title" class="form_input required" placeholder="Title"/>
+                <textarea name="description" ng-model="postData.desc" placeholder="Description" class="form_input required"></textarea>
+                <input type="file" onchange="angular.element(this).scope().setFile(this)" name="image" class="form_input required">
+                <select class="form_input12 required" ng-model="postData.category">
+                    <option value="">Select Category</option>
+                    <option ng-repeat="x in categoryList" value="{{x.id}}">{{x.name}}</option>
+                </select>
+                <input type="submit" ng-click="createPost()" name="submit" class="form_submit" id="submit" value="CREATE"/>
             </form>
             <!--<div class="signup_bottom">
                 <p>Don't have an account?</p>
@@ -219,7 +235,8 @@
 <script type="text/javascript" src="js/my-app.js"></script>
 <script type="text/javascript" src="js/jquery.swipebox.js"></script>
 <script type="text/javascript" src="js/email.js"></script>
-
+<!--<script type="text/javascript" src="js/ionic.bundle.js"></script>
+<script type="text/javascript" src="js/ionic.bundle.min.js"></script>-->
 
 </body>
 </html>
